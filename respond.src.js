@@ -209,44 +209,16 @@
 		//tweaked Ajax functions from Quirksmode
 		ajax = function( url, callback, isxd ) {
 			
-			var xhr = function() {
-				var req = xmlHttp();
-				
-				if (!req){
-					return;
-				}	
-				req.open( "GET", url, true );
-				req.onreadystatechange = function () {
-					if ( req.readyState != 4 || req.status != 200 && req.status != 304 ){
-						return;
-					}
-					callback( req.responseText );
-				}
-				if ( req.readyState == 4 ){
-					return;
-				}
-				req.send( null );
-				
-			};
-			
 			if (!!isxd)
 			{
 				// This is an XDomainRequest in IE 8--time to get weird...
 				var xdr = new XDomainRequest();
-				
-				if (!xdr){
-				    xhr();
-					return;
-				}
+
 				xdr.open("GET", url);
-				xdr.onerror = xhr;
 				xdr.onload = function () {
 					callback(xdr.responseText);
 				};
 				xdr.send();
-			}
-			else{
-				xhr();
 			}
 			
 		},
